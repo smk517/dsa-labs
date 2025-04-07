@@ -1,1 +1,229 @@
+#include<iostream>
+using namespace std;
+
+#define MAX 3 // Maximum plates the stack can hold
+
+class PlateStack {
+private:
+    int plates[MAX]; // Stack array
+    int top;
+
+public:
+    PlateStack() {
+        top = -1;
+    }
+
+    // Add plate to stack
+    void push(int plateNumber) {
+        if (top == MAX - 1) {
+            cout << "Stack is FULL. Cannot add more plates.\n";
+        } else {
+            plates[++top] = plateNumber;
+            cout << "Plate " << plateNumber << " added to the stack.\n";
+        }
+    }
+
+    // Remove top plate
+    void pop() {
+        if (top == -1) {
+            cout << "Stack is EMPTY. No plates to remove.\n";
+        } else {
+            cout << "Plate " << plates[top--] << " removed from the stack.\n";
+        }
+    }
+
+    // Show top plate
+    void peek() {
+        if (top == -1) {
+            cout << "Stack is EMPTY. No plates on top.\n";
+        } else {
+            cout << "Top plate is: " << plates[top] << endl;
+        }
+    }
+
+    // Display all plates
+    void display() {
+        if (top == -1) {
+            cout << "Stack is EMPTY. No plates to display.\n";
+        } else {
+            cout << "Plates in the stack:\n";
+            for (int i = top; i >= 0; i--) {
+                cout << "Plate " << plates[i] << endl;
+            }
+        }
+    }
+};
+
+int main() {
+    PlateStack stack;
+    int choice, plateNumber;
+
+    do {
+        cout << "\n--- Kitchen Plate Stack Menu ---\n";
+        cout << "1. Add Plate\n";
+        cout << "2. Remove Plate\n";
+        cout << "3. Check Top Plate\n";
+        cout << "4. Display Plates\n";
+        cout << "5. Exit\n";
+        cout << "Choose an option: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter plate number to add: ";
+                cin >> plateNumber;
+                stack.push(plateNumber);
+                break;
+            case 2:
+                stack.pop();
+                break;
+            case 3:
+                stack.peek();
+                break;
+            case 4:
+                stack.display();
+                break;
+            case 5:
+                cout << "Exiting... Have a great day in the kitchen!\n";
+                break;
+            default:
+                cout << "Invalid choice. Try again.\n";
+        }
+    } while (choice != 5);
+
+    return 0;
+}
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Node definition
+struct Node {
+    string item;
+    Node* next;
+};
+
+// GroceryList class
+class GroceryList {
+private:
+    Node* head;
+
+public:
+    GroceryList() {
+        head = nullptr;
+    }
+
+    // Add item at the end
+    void addItem(const string& itemName) {
+        Node* newNode = new Node{itemName, nullptr};
+        if (head == nullptr) {
+            head = newNode;
+        } else {
+            Node* temp = head;
+            while (temp->next != nullptr)
+                temp = temp->next;
+            temp->next = newNode;
+        }
+        cout << "Item \"" << itemName << "\" added to the list.\n";
+    }
+
+    // Remove specific item
+    void removeItem(const string& itemName) {
+        if (head == nullptr) {
+            cout << "List is empty. Nothing to remove.\n";
+            return;
+        }
+
+        // If the item is at the head
+        if (head->item == itemName) {
+            Node* toDelete = head;
+            head = head->next;
+            delete toDelete;
+            cout << "Item \"" << itemName << "\" removed from the list.\n";
+            return;
+        }
+
+        // Search for item
+        Node* current = head;
+        while (current->next != nullptr && current->next->item != itemName) {
+            current = current->next;
+        }
+
+        if (current->next == nullptr) {
+            cout << "Item \"" << itemName << "\" not found in the list.\n";
+        } else {
+            Node* toDelete = current->next;
+            current->next = toDelete->next;
+            delete toDelete;
+            cout << "Item \"" << itemName << "\" removed from the list.\n";
+        }
+    }
+
+    // Display all items
+    void displayList() {
+        if (head == nullptr) {
+            cout << "The grocery list is empty.\n";
+            return;
+        }
+
+        cout << "Grocery List Items:\n";
+        Node* temp = head;
+        while (temp != nullptr) {
+            cout << "- " << temp->item << endl;
+            temp = temp->next;
+        }
+    }
+
+    // Destructor to clean memory
+    ~GroceryList() {
+        Node* current = head;
+        while (current != nullptr) {
+            Node* nextNode = current->next;
+            delete current;
+            current = nextNode;
+        }
+    }
+};
+
+// Main function with menu
+int main() {
+    GroceryList list;
+    int choice;
+    string itemName;
+
+    do {
+        cout << "\n=== Grocery Shopping List Menu ===\n";
+        cout << "1. Add Item\n";
+        cout << "2. Remove Item\n";
+        cout << "3. View List\n";
+        cout << "4. Exit\n";
+        cout << "Choose an option: ";
+        cin >> choice;
+        cin.ignore(); // Clear input buffer
+
+        switch (choice) {
+            case 1:
+                cout << "Enter item to add: ";
+                getline(cin, itemName);
+                list.addItem(itemName);
+                break;
+            case 2:
+                cout << "Enter item to remove: ";
+                getline(cin, itemName);
+                list.removeItem(itemName);
+                break;
+            case 3:
+                list.displayList();
+                break;
+            case 4:
+                cout << "Exiting... Happy shopping!\n";
+                break;
+            default:
+                cout << "Invalid option. Try again.\n";
+        }
+    } while (choice != 4);
+
+    return 0;
+}
 
